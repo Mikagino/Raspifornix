@@ -23,7 +23,7 @@
       # Enables the generation of /boot/extlinux/extlinux.conf
       generic-extlinux-compatible.enable = true;
     };
-    kernelPackages = pkgs.linuxPackages_4_19;
+#    kernelPackages = pkgs.linuxKernel.kernels.linux_default;
   };
 
   # networking.hostName = "nixos"; # Define your hostname.
