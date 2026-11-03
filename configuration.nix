@@ -24,7 +24,14 @@
       # Enables the generation of /boot/extlinux/extlinux.conf
       generic-extlinux-compatible.enable = true;
     };
-    # kernelPackages = pkgs.linuxKernel.kernels.linux_default;
+    #kernelPackages = pkgs.linuxKernel.kernels.linux_latest;
+
+    boot.kernelParams = [
+      "console=ttyS0,115200n8"
+      "console=ttyAMA0,115200n8"
+      "console=tty0"
+      "nohibernate"
+    ];
   };
 
 
@@ -39,10 +46,10 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "de_DE.UTF-8/UTF-8";
+  i18n.defaultLocale = "de_DE.UTF-8";
   console = {
     font = "Lat2-Terminus16";
-    keyMap = "de";
+   # keyMap = "de";
     useXkbConfig = true; # use xkb.options in tty.
   };
 
