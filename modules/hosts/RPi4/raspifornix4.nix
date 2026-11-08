@@ -6,7 +6,7 @@
   inputs,
   self,
   lib,
-  modulesPath,
+  #modulesPath,
   ...
 }: {
   # ----- Modules -----
@@ -43,9 +43,9 @@
     };
 
     # ----- Disks -----
-    imports = [
-      (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+    #imports = [
+    #  (modulesPath + "/installer/scan/not-detected.nix")
+    #];
 
     fileSystems."/" = {
       device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
