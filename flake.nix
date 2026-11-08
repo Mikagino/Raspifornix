@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "https://channels.nixos.org/nixos-26.05";
-    nixos-hardware.url = "https://github.com/NixOS/nixos-hardware/archive/master.tar.gz";
+    hardware.url = "https://github.com/NixOS/nixos-hardware/archive/master.tar.gz";
     # Necessary for Dendritic
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
