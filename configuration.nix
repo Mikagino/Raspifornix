@@ -90,6 +90,18 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+  
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 7d --keep 3";
+    flake = "~/Raspifornix";
+  };
 
   system.stateVersion = "25.11"; # Did you read the comment?
 }
