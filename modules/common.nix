@@ -16,6 +16,7 @@
     environment.systemPackages = with pkgs; [
       git
       lazygit
+      tree
     ];
 
     nix.settings.experimental-features = [
