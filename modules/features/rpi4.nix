@@ -2,13 +2,11 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.rpi4 = { pkgs, inputs, ... }: {
-    #imports = [
-      #hardware = import inputs.nixos-hardware.modules.raspberry-pi-4;
-      #<nixos-hardware/raspberry-pi/4>
-      #"${fetchTarball "https://github.com/NixOS/nixos-hardware/tarball/master"}/raspberry-pi/4"
-      #./hardware-configuration.nix
-    #];
+  flake.nixosModules.rpi4 = { pkgs, modulesPath, ... }: {
+    imports = [
+      inputs.nixos-hardware.nixosModules.raspberry-pi-4
+      (modulesPath + "/installer/scan/not-detected.nix")
+    ];
 
     environment.systemPackages = with pkgs; [
       # ubootRaspberryPiAarch64
