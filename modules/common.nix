@@ -17,6 +17,7 @@
       git
       lazygit
       tree
+      neovim
     ];
 
     nix.settings.experimental-features = [
