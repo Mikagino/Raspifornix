@@ -7,9 +7,16 @@
       url = "https://github.com/NixOS/nixos-hardware/archive/master.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
     # Necessary for Dendritic
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
+
+    # Secrets management
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
