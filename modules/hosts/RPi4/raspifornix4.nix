@@ -17,6 +17,7 @@
       locale-de
       networking
       rpi4
+      sops
 
       mika
     ]
