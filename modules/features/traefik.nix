@@ -66,7 +66,7 @@
           EOF
           chmod 600 ${traefikDataDir}/env
           '';
-        networking.firewall.allowedTCPPorts = [ ${httpPort} ${httpsPort} ];
+        networking.firewall.allowedTCPPorts = [ "${httpPort}" "${httpsPort}" ];
       };
     };
   };
