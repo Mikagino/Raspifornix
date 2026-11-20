@@ -2,7 +2,7 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.traefik = { pkgs, ... }:
+  flake.nixosModules.traefik = { pkgs, config, ... }:
   let
     httpPort = 80;
     httpsPort = 443;
