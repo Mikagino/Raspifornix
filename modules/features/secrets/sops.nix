@@ -14,7 +14,7 @@
 
     sops.defaultSopsFile = ./secrets.yaml;
     sops.defaultSopsFormat = "yaml";
-    sops.age.keyFile = "/home/${user.name}/.config/sops/age/keys.txt";
+    sops.age.keyFile = "/home/mika/.config/sops/age/keys.txt";
   };
 
   flake.homeModules.sops = { pkgs, config, ... }: {
