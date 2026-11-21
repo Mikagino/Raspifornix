@@ -67,20 +67,20 @@
     };
 
       ### Environment File ###
-      systemd.services.traefik.serviceConfig.EnvironmentFile = [ "${traefikDataDir}/env" ];
+    systemd.services.traefik.serviceConfig.EnvironmentFile = [ "/var/lib/traefik/env" ];
 
-      system.activationScripts.traefikEnv = {
-        text = ''
-          echo "Creating Traefik env file..."
-          cat > ${traefikDataDir}/env << 'EOF' 
-          PORKBUN_API_KEY=${config.sops.secrets."porkbun/apiKey".path} 
-          PORKBUN_SECRET_API_KEY=${config.sops.secrets."porkbun/secretApiKey".path} 
-          EOF
-          chmod 600 ${traefikDataDir}/env
-        '';
-        deps = [ ];
-      };
+    system.activationScripts.traefikEnv = {
+      text = ''
+        echo "Creating Traefik env file..."
+        cat > ${traefikDataDir}/env << 'EOF' 
+        PORKBUN_API_KEY=${config.sops.secrets."porkbun/apiKey".path} 
+        PORKBUN_SECRET_API_KEY=${config.sops.secrets."porkbun/secretApiKey".path} 
+        EOF
+        chmod 600 ${traefikDataDir}/env
+      '';
+      deps = [ ];
+    };
 
-      networking.firewall.allowedTCPPorts = [ 80 443 ];
+    networking.firewall.allowedTCPPorts = [ 80 443 ];
   };
 }
