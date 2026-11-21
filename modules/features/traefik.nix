@@ -78,7 +78,7 @@
         middlewares.auth.basicAuth.users = ["${config.sops.secrets."auth/user".path}:${config.sops.secrets."auth/password".path}"];
         routers.api = {
           entryPoint = [ "websecure" ];
-          rule = "Host(`${config.sops.secrets."domain"}`)";
+          rule = "Host(`${config.sops.secrets."domain".path}`)";
           service = "api@internal";
           middlewares = [ "auth" ];
           tls.certResolver = "porkbun";
