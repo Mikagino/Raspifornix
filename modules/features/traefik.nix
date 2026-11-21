@@ -11,7 +11,7 @@
     sops.secrets."porkbun/apiKey" = {};
     sops.secrets."porkbun/secretApiKey" = {};
     sops.secrets."porkbun/accessPasswordHash" = {};
-    sops.secrets."mika/email" = {};
+    sops.secrets."email" = {};
     sops.secrets."domain" = {};
     services.traefik = {
       enable = true;
