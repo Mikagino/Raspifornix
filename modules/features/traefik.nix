@@ -4,12 +4,16 @@
 }: {
   flake.nixosModules.traefik = { pkgs, config, ... }:
   let
+    ### Variables ###
     httpPort = 80;
     httpsPort = 443;
     traefikDataDir = "/var/lib/traefik";
+    ### sops Secrets ###
     sops.secrets."porkbun/apiKey" = {};
     sops.secrets."porkbun/secretApiKey" = {};
     sops.secrets."porkbun/accessPasswordHash" = {};
+    sops.secrets."mika/email" = {};
+    sops.secrets."domain" = {};
   in
   {
     services.traefik = {
@@ -34,7 +38,7 @@
 
             certificatesResolvers.porkbun = {
               acme = {
-                email = "angeli.mika@proton.me";
+                email = "${config.sops.secrets."mika/email"}";
                 storage = "${traefikDataDir}/acme.json";
                 dnsChallenge = {
                   provider = "porkbun";
@@ -52,10 +56,17 @@
         };
       
         dynamicConfigOptions = {
-      
+          routers.api = {
+            entryPoint = [ "websecure" ];
+            rule = "Host('${config.sops.secrets."domain"}')";
+            service = "api@internal";
+            middlewares = [ "auth" ];
+            tls.certResolver = "porkbun";
+          };
         };
       };
 
+      ### Environment File ###
       systemd.services.traefik.serviceConfig = {
         EnvironmentFile = [ "${traefikDataDir}/env" ];
       };
@@ -63,14 +74,16 @@
       system.activationScripts.traefikEnv = {
         text = ''
           echo "Creating Traefik env file..."
-          cat > /env << 'EOF' 
+          cat > ${traefikDataDir}/env << 'EOF' 
           PORKBUN_API_KEY=${config.sops.secrets."porkbun/apiKey".path} 
           PORKBUN_SECRET_API_KEY=${config.sops.secrets."porkbun/secretApiKey".path} 
           EOF
           chmod 600 ${traefikDataDir}/env
-          '';
-        networking.firewall.allowedTCPPorts = [ "${httpPort}" "${httpsPort}" ];
+        '';
+        deps = [ ];
       };
+
+      networking.firewall.allowedTCPPorts = [ "${httpPort}" "${httpsPort}" ];
     };
   };
 }
