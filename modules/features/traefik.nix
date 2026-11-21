@@ -7,6 +7,9 @@
     httpPort = 80;
     httpsPort = 443;
     traefikDataDir = "/var/lib/traefik";
+    sops.secrets."porkbun/apiKey" = {};
+    sops.secrets."porkbun/secretApiKey" = {};
+    sops.secrets."porkbun/accessPasswordHash" = {};
   in
   {
     services.traefik = {
