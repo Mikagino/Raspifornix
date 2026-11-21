@@ -1,8 +1,9 @@
 {
   inputs,
+  user,
   ...
 }: {
-  flake.nixosModules.traefik = { pkgs, config, user, ... }:
+  flake.nixosModules.traefik = { pkgs, config, ... }:
   let
     ### Variables ###
     traefikDataDir = "/var/lib/traefik";
@@ -13,6 +14,7 @@
     sops.secrets."porkbun/accessPasswordHash" = {};
     sops.secrets."email" = {};
     sops.secrets."domain" = {};
+
     services.traefik = {
       enable = true;
 
@@ -83,7 +85,7 @@
       };
     };
 
-      ### Environment File ###
+    ### Environment File ###
     systemd.services.traefik.serviceConfig.EnvironmentFile = [ "/var/lib/traefik/env" ];
 
     system.activationScripts.traefikEnv = {
