@@ -2,7 +2,7 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.traefik = { pkgs, config, ... }:
+  flake.nixosModules.traefik = { pkgs, config, user, ... }:
   let
     ### Variables ###
     traefikDataDir = "/var/lib/traefik";
