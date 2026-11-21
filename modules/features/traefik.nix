@@ -55,7 +55,7 @@
 
         ### Certificate Resolver ###
         certificatesResolvers.porkbun.acme = {
-          email = "${config.sops.secrets."mika/email"}";
+          email = "${config.sops.secrets."email"}";
           storage = "${traefikDataDir}/acme.json";
           dnsChallenge = {
             provider = "porkbun";
