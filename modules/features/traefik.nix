@@ -5,8 +5,6 @@
   flake.nixosModules.traefik = { pkgs, config, ... }:
   let
     ### Variables ###
-    httpPort = 80;
-    httpsPort = 443;
     traefikDataDir = "/var/lib/traefik";
   in {
     ### sops Secrets ###
@@ -24,31 +22,48 @@
         };
 
         entryPoints = {
+          ### Access with http redirects to https ###
           web = {
-            adress = ":${httpPort}";
+            adress = ":80";
             http.redirections.entryPoint = {
               to = "websecure";
               scheme = "https";
             };
           };
-          websecure = {
-            adress = ":${httpsPort}";
-          };
 
-          certificatesResolvers.porkbun = {
-            acme = {
-              email = "${config.sops.secrets."mika/email"}";
-              storage = "${traefikDataDir}/acme.json";
-              dnsChallenge = {
-                provider = "porkbun";
-                resolvers = [
-                  "curitiba.ns.porkbun.com"
-                  "fortaleza.ns.porkbun.com"
-                  "maceio.ns.porkbun.com"
-                  "salvador.ns.porkbun.com"
-                  ];
-                # propagation.delayBeforeChecks = 60; # uncomment if porkbun is sometimes too slow
-              };
+          ### Access with https ###
+          websecure = {
+            adress = ":443";
+            transport.respondingTimeouts = {
+              readTimeout = 600;
+              idleTimeout = 600;
+              writeTimeout = 600;
+            };
+            http.tls = {
+              certResolver = "porkbun";
+              domains = [
+                {
+                  main = "${config.sops.secrets."domain"}";
+                  sans = [ "*.${config.sops.secrets."domain"}" ];
+                }
+              ];
+            };
+          };
+        };
+
+        certificatesResolvers.porkbun = {
+          acme = {
+            email = "${config.sops.secrets."mika/email"}";
+            storage = "${traefikDataDir}/acme.json";
+            dnsChallenge = {
+              provider = "porkbun";
+              resolvers = [
+                "curitiba.ns.porkbun.com"
+                "fortaleza.ns.porkbun.com"
+                "maceio.ns.porkbun.com"
+                "salvador.ns.porkbun.com"
+                ];
+              # propagation.delayBeforeChecks = 60; # uncomment if porkbun is sometimes too slow
             };
           };
         };
