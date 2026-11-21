@@ -22,36 +22,35 @@
         log = {
 	        level = "WARN";
         };
-        api = {
-          entryPoints = {
-            web = {
-              adress = ":${httpPort}";
-              http.redirections.entryPoint = {
-                to = "websecure";
-                scheme = "https";
-              };
-	          };
-            websecure = {
-              adress = ":${httpsPort}";
-            };
 
-            certificatesResolvers.porkbun = {
-              acme = {
-                email = "${config.sops.secrets."mika/email"}";
-                storage = "${traefikDataDir}/acme.json";
-                dnsChallenge = {
-                  provider = "porkbun";
-                  resolvers = [
-                    "curitiba.ns.porkbun.com"
-                    "fortaleza.ns.porkbun.com"
-                    "maceio.ns.porkbun.com"
-                    "salvador.ns.porkbun.com"
-                    ];
-                  # propagation.delayBeforeChecks = 60; # uncomment if porkbun is sometimes too slow
-                };
+        entryPoints = {
+          web = {
+            adress = ":${httpPort}";
+            http.redirections.entryPoint = {
+              to = "websecure";
+              scheme = "https";
+            };
+          };
+          websecure = {
+            adress = ":${httpsPort}";
+          };
+
+          certificatesResolvers.porkbun = {
+            acme = {
+              email = "${config.sops.secrets."mika/email"}";
+              storage = "${traefikDataDir}/acme.json";
+              dnsChallenge = {
+                provider = "porkbun";
+                resolvers = [
+                  "curitiba.ns.porkbun.com"
+                  "fortaleza.ns.porkbun.com"
+                  "maceio.ns.porkbun.com"
+                  "salvador.ns.porkbun.com"
+                  ];
+                # propagation.delayBeforeChecks = 60; # uncomment if porkbun is sometimes too slow
               };
             };
-	        };
+          };
         };
       
         dynamicConfigOptions = {
