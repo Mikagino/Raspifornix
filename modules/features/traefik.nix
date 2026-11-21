@@ -26,14 +26,14 @@
         api = {
           entryPoints = {
             web = {
-              adress = ":${httpPort}";
+              adress = ":'${httpPort}'";
               http.redirections.entryPoint = {
                 to = "websecure";
                 scheme = "https";
               };
 	          };
             websecure = {
-              adress = ":${httpsPort}";
+              adress = ":'${httpsPort}'";
             };
 
             certificatesResolvers.porkbun = {
