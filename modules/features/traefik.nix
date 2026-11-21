@@ -83,7 +83,7 @@
         deps = [ ];
       };
 
-      networking.firewall.allowedTCPPorts = [ "${httpPort}" "${httpsPort}" ];
+      networking.firewall.allowedTCPPorts = [ "'${httpPort}'" "'${httpsPort}'" ];
     };
   };
 }
