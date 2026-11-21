@@ -2,7 +2,7 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.traefik = { pkgs, config, user, ... }:
+  flake.nixosModules.traefik = { pkgs, config, ... }:
   let
     ### Variables ###
     traefikDataDir = "/var/lib/traefik";
@@ -13,6 +13,8 @@
     sops.secrets."porkbun/accessPasswordHash" = {};
     sops.secrets."email" = {};
     sops.secrets."domain" = {};
+    sops.secrets."auth/user" = {};
+    sops.secrets."auth/password" = {};
 
     services.traefik = {
       enable = true;
@@ -73,7 +75,7 @@
       
       ### Dynamic Configuration ###
       dynamicConfigOptions.http = {
-        middlewares.auth.basicAuth.users = ["${users.users.${user}}:${config.sops.secrets."accessPasswordHash".path}"];
+        middlewares.auth.basicAuth.users = ["${config.sops.secrets."auth/user".path}:${config.sops.secrets."auth/password".path}"];
         routers.api = {
           entryPoint = [ "websecure" ];
           rule = "Host('${config.sops.secrets."domain"}')";
