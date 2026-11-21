@@ -15,7 +15,6 @@
 
     environment.systemPackages = with pkgs; [
       git
-      lazygit
       tree
       neovim
       merecat
@@ -31,6 +30,17 @@
       clean.enable = true;
       clean.extraArgs = "--keep-since 7d --keep 3";
       flake = "~/Raspifornix";
+    };
+
+    programs.lazygit = {
+      enable = true;
+      settings = {
+        notARepository = "skip";
+        gui = {
+          theme.authorColors."Mikagino" = "#a12929";
+          nerdFontsVersion = "3";
+        };
+      };
     };
   };
 }
