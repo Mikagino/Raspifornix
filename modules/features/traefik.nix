@@ -17,6 +17,8 @@
       enable = true;
 
       staticConfigOptions = {
+        api.dashboard = true;
+
         log = {
 	        level = "WARN";
         };
@@ -51,31 +53,32 @@
           };
         };
 
-        certificatesResolvers.porkbun = {
-          acme = {
-            email = "${config.sops.secrets."mika/email"}";
-            storage = "${traefikDataDir}/acme.json";
-            dnsChallenge = {
-              provider = "porkbun";
-              resolvers = [
-                "curitiba.ns.porkbun.com"
-                "fortaleza.ns.porkbun.com"
-                "maceio.ns.porkbun.com"
-                "salvador.ns.porkbun.com"
-                ];
-              # propagation.delayBeforeChecks = 60; # uncomment if porkbun is sometimes too slow
-            };
+        ### Certificate Resolver ###
+        certificatesResolvers.porkbun.acme = {
+          email = "${config.sops.secrets."mika/email"}";
+          storage = "${traefikDataDir}/acme.json";
+          dnsChallenge = {
+            provider = "porkbun";
+            resolvers = [
+              "curitiba.ns.porkbun.com"
+              "fortaleza.ns.porkbun.com"
+              "maceio.ns.porkbun.com"
+              "salvador.ns.porkbun.com"
+              ];
+            # propagation.delayBeforeChecks = 60; # uncomment if porkbun is sometimes too slow
           };
         };
+      };
       
-        dynamicConfigOptions = {
-          routers.api = {
-            entryPoint = [ "websecure" ];
-            rule = "Host('${config.sops.secrets."domain"}')";
-            service = "api@internal";
-            middlewares = [ "auth" ];
-            tls.certResolver = "porkbun";
-          };
+      ### Dynamic Configuration ###
+      dynamicConfigOptions.http = {
+        middlewares.auth.basicAuth.users = ["${user.name}:${config.sops.secrets."accessPasswordHash".path}"];
+        routers.api = {
+          entryPoint = [ "websecure" ];
+          rule = "Host('${config.sops.secrets."domain"}')";
+          service = "api@internal";
+          middlewares = [ "auth" ];
+          tls.certResolver = "porkbun";
         };
       };
     };
