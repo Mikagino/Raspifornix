@@ -19,6 +19,7 @@
       rpi4
       shell-aliases
       sops
+      traefik
 
       mika
     ]
