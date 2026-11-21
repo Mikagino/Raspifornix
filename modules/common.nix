@@ -18,6 +18,7 @@
       lazygit
       tree
       neovim
+      merecat
     ];
 
     nix.settings.experimental-features = [
