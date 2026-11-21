@@ -67,9 +67,7 @@
     };
 
       ### Environment File ###
-      systemd.services.traefik.serviceConfig = {
-        EnvironmentFile = [ "${traefikDataDir}/env" ];
-      };
+      systemd.services.traefik.serviceConfig.EnvironmentFile = [ "${traefikDataDir}/env" ];
 
       system.activationScripts.traefikEnv = {
         text = ''
