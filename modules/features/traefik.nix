@@ -45,8 +45,8 @@
               certResolver = "porkbun";
               domains = [
                 {
-                  main = "${config.sops.secrets."domain"}";
-                  sans = [ "*.${config.sops.secrets."domain"}" ];
+                  main = "${config.sops.secrets."domain".path}";
+                  sans = [ "*.${config.sops.secrets."domain".path}" ];
                 }
               ];
             };
@@ -55,7 +55,7 @@
 
         ### Certificate Resolver ###
         certificatesResolvers.porkbun.acme = {
-          email = "${config.sops.secrets."email"}";
+          email = "${config.sops.secrets."email".path}";
           storage = "${traefikDataDir}/acme.json";
           dnsChallenge = {
             provider = "porkbun";
