@@ -65,6 +65,7 @@
           };
         };
       };
+    };
 
       ### Environment File ###
       systemd.services.traefik.serviceConfig = {
@@ -84,6 +85,5 @@
       };
 
       networking.firewall.allowedTCPPorts = [ 80 443 ];
-    };
   };
 }
