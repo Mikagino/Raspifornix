@@ -10,7 +10,6 @@
     ### sops Secrets ###
     sops.secrets."porkbun/apiKey" = {};
     sops.secrets."porkbun/secretApiKey" = {};
-    sops.secrets."porkbun/accessPasswordHash" = {};
     sops.secrets."email" = {};
     sops.secrets."domain" = {};
     sops.secrets."auth/user" = {};
